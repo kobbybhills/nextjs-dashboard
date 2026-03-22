@@ -98,13 +98,13 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
 }
 
 export async function deleteInvoice(id: string) {
-  
   try {
     await sql`DELETE FROM invoices WHERE id = ${id}`;
     revalidatePath('/dashboard/invoices');
-    return { message: 'Deleted Invoice.' };
+    // Removing the return { message: ... } here clears the TS error for the form action
   } catch (error) {
-    return { message: 'Database Error: Failed to Delete Invoice.' };
+    console.error('Database Error:', error);
+    // You can throw an error here if you want the nearest error.tsx to catch it
   }
 }
 
